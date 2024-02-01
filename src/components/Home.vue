@@ -11,11 +11,7 @@
       </div>
     </div>
     <div class="row mt-3">
-      <div
-        v-for="book in currentBooks"
-        :key="book.id"
-        class="col-lg-4 mb-3"
-      >
+      <div v-for="book in currentBooks" :key="book.id" class="col-lg-4 mb-3">
         <div class="card">
           <img
             :src="book.image"
@@ -32,8 +28,8 @@
         </div>
       </div>
     </div>
-    <nav aria-label="Page navigation"  v-if="myBooks && myBooks.length > 0">
-      <ul class="pagination">
+    <nav aria-label="Page navigation" v-if="totalPages > 1">
+      <ul class="pagination justify-content-center">
         <li class="page-item" :class="{ disabled: currentPage === 1 }">
           <a class="page-link" @click="changePage(currentPage - 1)" href="#" aria-label="Previous">
             <span aria-hidden="true">&laquo;</span>
@@ -53,23 +49,25 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
-
 export default {
   name: "Home",
+  data() {
+    return {
+      textInput: "",
+    };
+  },
   computed: {
-    ...mapState(["itemsPerPage", "currentPage"]),
-    ...mapGetters(["totalPages", "pages", "currentBooks"]),
-    textInput: {
-      get() {
-        return this.$store.state.textInput;
-      },
-      set(value) {
-        this.$store.commit("SET_TEXT_INPUT", value);
-      },
-    },
     myBooks() {
       return this.$store.state.myBooks;
+    },
+    itemsPerPage() {
+      return this.$store.state.itemsPerPage;
+    },
+    currentPage() {
+      return this.$store.state.currentPage;
+    },
+    totalPages() {
+      return Math.ceil(this.myBooks.length / this.itemsPerPage);
     },
     displayedPages() {
       const maxDisplayedPages = 5;
@@ -77,27 +75,23 @@ export default {
       const endPage = Math.min(startPage + maxDisplayedPages - 1, this.totalPages);
       return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
     },
+    currentBooks() {
+      const start = (this.currentPage - 1) * this.itemsPerPage;
+      const end = start + this.itemsPerPage;
+      return this.myBooks.slice(start, end);
+    },
   },
   methods: {
-    ...mapActions(["fetchDataFromAPI"]),
-    ...mapMutations(["SET_TEXT_INPUT"]),
-    async changePage(page) {
-      if (page >= 1 && page <= this.totalPages) {
+    changePage(page) {
+      if (page >= 1 && page <= this.totalPages && page !== this.currentPage) {
         this.$store.commit("SET_CURRENT_PAGE", page);
-
-        // Provera da li je stranica već dohvaćena
-        if (!this.$store.state.pagesData[page]) {
-          // Ako nije, dohvat podataka sa API-ja
-          const data = await this.fetchDataFromAPI(this.textInput);
-          this.$store.commit("SET_PAGES_DATA", { page, data });
-        }
       }
     },
   },
   watch: {
     textInput(newText) {
       if (newText !== "") {
-        this.fetchDataFromAPI(newText);
+        this.$store.dispatch("fetchDataFromAPI", newText);
       }
     },
   },

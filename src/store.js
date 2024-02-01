@@ -7,9 +7,14 @@ export default createStore({
     itemsPerPage: 3,
     currentPage: 1,
   },
+  getters: {
+    totalPages(state) {
+      return Math.ceil(state.myBooks.length / state.itemsPerPage);
+    },
+  },
   mutations: {
-    SET_TEXT_INPUT(state, text) {
-      state.textInput = text;
+    SET_TEXT_INPUT(state, value) {
+      state.textInput = value;
     },
     SET_MY_BOOKS(state, books) {
       state.myBooks = books;
@@ -32,30 +37,8 @@ export default createStore({
         commit("SET_MY_BOOKS", data.books || []);
         commit("SET_CURRENT_PAGE", 1);
       } catch (error) {
-        console.error("Greška pri dobijanju podataka sa API:", error);
+        console.error("Error fetching data from API:", error);
       }
-    },
-    changePage({ commit, state }, page) {
-      if (page >= 1 && page <= state.totalPages) {
-        commit("SET_CURRENT_PAGE", page);
-      }
-    },
-  },
-  getters: {
-    totalPages(state) {
-      return Math.ceil(state.myBooks.length / state.itemsPerPage);
-    },
-    pages(state, getters) {
-      const pagesArray = [];
-      for (let i = 1; i <= getters.totalPages; i++) {
-        pagesArray.push(i);
-      }
-      return pagesArray;
-    },
-    currentBooks(state) {
-      const start = (state.currentPage - 1) * state.itemsPerPage;
-      const end = start + state.itemsPerPage;
-      return state.myBooks.slice(start, end);
     },
   },
 });
