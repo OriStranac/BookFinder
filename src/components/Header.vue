@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid d-flex justify-content-between">
       <a class="navbar-brand ps-0 font-weight-bold" href="#">BookFounder</a>
       <div class="d-flex">
