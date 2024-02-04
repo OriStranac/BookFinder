@@ -46,11 +46,17 @@ export default createStore({
       }
     },
     addToFavoritesAction({ commit, state }, book) {
-      commit("addToFavoritesMutation", book);
-      localStorage.setItem(
-        "favoriteBooks",
-        JSON.stringify(state.favoriteBooks)
-      );
+      if (
+        !state.favoriteBooks.some((favoriteBook) => favoriteBook.id === book.id)
+      ) {
+        commit("addToFavoritesMutation", book);
+        localStorage.setItem(
+          "favoriteBooks",
+          JSON.stringify(state.favoriteBooks)
+        );
+      } else {
+        console.warn("Book already exists in favorites!");
+      }
     },
   },
 });
