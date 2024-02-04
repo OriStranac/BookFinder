@@ -1,14 +1,18 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid d-flex justify-content-between">
-      <a class="navbar-brand ps-0 font-weight-bold" href="#">BookFounder</a>
+      <router-link to="/" class="navbar-brand ps-0 font-weight-bold"
+        >BookFounder</router-link
+      >
       <div class="d-flex">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="#">Home</a>
+            <router-link to="/" class="nav-link">Home</router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Favorites</a>
+            <router-link to="/favorites" class="nav-link"
+              >Favorites</router-link
+            >
           </li>
         </ul>
       </div>
@@ -16,11 +20,7 @@
   </nav>
 </template>
 
-<style scoped>
-.custom-navbar-brand {
-  padding-left: 0 !important;
-}
-</style>
+<style scoped></style>
 
 <script>
 export default {

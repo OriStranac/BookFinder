@@ -23,15 +23,18 @@
             <h5 class="card-title">{{ book.title }}</h5>
             <p class="card-text">{{ book.subtitle }}</p>
             <p class="card-text">Authors: {{ book.authors }}</p>
-            <a :href="book.url" target="_blank" class="btn btn-primary"
-              >More Info</a
+            <router-link
+              :to="{ name: 'book-details', params: { id: book.id || '' } }"
+              class="btn btn-primary"
             >
+              Details
+            </router-link>
           </div>
         </div>
       </div>
     </div>
-    <nav aria-label="Page navigation" v-if="myBooks && myBooks.length > 0">
-      <ul class="pagination">
+    <nav aria-label="Page navigation" v-if="totalPages > 1">
+      <ul class="pagination justify-content-center">
         <li class="page-item" :class="{ disabled: currentPage === 1 }">
           <a
             class="page-link"
@@ -66,23 +69,26 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
-
+import FavouritesBooks from "./FavouritesBooks.vue";
 export default {
   name: "Home",
+  data() {
+    return {
+      textInput: "",
+    };
+  },
   computed: {
-    ...mapState(["itemsPerPage", "currentPage"]),
-    ...mapGetters(["totalPages", "pages", "currentBooks"]),
-    textInput: {
-      get() {
-        return this.$store.state.textInput;
-      },
-      set(value) {
-        this.$store.commit("SET_TEXT_INPUT", value);
-      },
-    },
     myBooks() {
       return this.$store.state.myBooks;
+    },
+    itemsPerPage() {
+      return this.$store.state.itemsPerPage;
+    },
+    currentPage() {
+      return this.$store.state.currentPage;
+    },
+    totalPages() {
+      return Math.ceil(this.myBooks.length / this.itemsPerPage);
     },
     displayedPages() {
       const maxDisplayedPages = 5;
@@ -99,17 +105,26 @@ export default {
         (_, i) => startPage + i
       );
     },
+    currentBooks() {
+      const start = (this.currentPage - 1) * this.itemsPerPage;
+      const end = start + this.itemsPerPage;
+      return this.myBooks.slice(start, end);
+    },
   },
   methods: {
-    ...mapActions(["fetchDataFromAPI", "changePage"]),
-    ...mapMutations(["SET_TEXT_INPUT"]),
+    changePage(page) {
+      if (page >= 1 && page <= this.totalPages && page !== this.currentPage) {
+        this.$store.commit("SET_CURRENT_PAGE", page);
+      }
+    },
   },
   watch: {
     textInput(newText) {
       if (newText !== "") {
-        this.fetchDataFromAPI(newText);
+        this.$store.dispatch("fetchDataFromAPI", newText);
       }
     },
   },
+  components:  { FavouritesBooks },
 };
 </script>
