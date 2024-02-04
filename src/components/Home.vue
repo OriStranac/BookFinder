@@ -17,13 +17,18 @@
             :src="book.image"
             class="card-img-top"
             alt="Book Cover"
-            style="height: 200px; object-fit: cover;"
+            style="height: 200px; object-fit: cover"
           />
           <div class="card-body">
             <h5 class="card-title">{{ book.title }}</h5>
             <p class="card-text">{{ book.subtitle }}</p>
             <p class="card-text">Authors: {{ book.authors }}</p>
-            <a :href="book.url" target="_blank" class="btn btn-primary">More Info</a>
+            <router-link
+              :to="{ name: 'book-details', params: { id: book.id || '' } }"
+              class="btn btn-primary"
+            >
+              Details
+            </router-link>
           </div>
         </div>
       </div>
@@ -31,15 +36,30 @@
     <nav aria-label="Page navigation" v-if="totalPages > 1">
       <ul class="pagination justify-content-center">
         <li class="page-item" :class="{ disabled: currentPage === 1 }">
-          <a class="page-link" @click="changePage(currentPage - 1)" href="#" aria-label="Previous">
+          <a
+            class="page-link"
+            @click="changePage(currentPage - 1)"
+            href="#"
+            aria-label="Previous"
+          >
             <span aria-hidden="true">&laquo;</span>
           </a>
         </li>
-        <li v-for="page in displayedPages" :key="page" class="page-item" :class="{ active: currentPage === page }">
+        <li
+          v-for="page in displayedPages"
+          :key="page"
+          class="page-item"
+          :class="{ active: currentPage === page }"
+        >
           <a class="page-link" @click="changePage(page)" href="#">{{ page }}</a>
         </li>
         <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-          <a class="page-link" @click="changePage(currentPage + 1)" href="#" aria-label="Next">
+          <a
+            class="page-link"
+            @click="changePage(currentPage + 1)"
+            href="#"
+            aria-label="Next"
+          >
             <span aria-hidden="true">&raquo;</span>
           </a>
         </li>
@@ -49,6 +69,7 @@
 </template>
 
 <script>
+import FavouritesBooks from "./FavouritesBooks.vue";
 export default {
   name: "Home",
   data() {
@@ -71,9 +92,18 @@ export default {
     },
     displayedPages() {
       const maxDisplayedPages = 5;
-      const startPage = Math.max(this.currentPage - Math.floor(maxDisplayedPages / 2), 1);
-      const endPage = Math.min(startPage + maxDisplayedPages - 1, this.totalPages);
-      return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
+      const startPage = Math.max(
+        this.currentPage - Math.floor(maxDisplayedPages / 2),
+        1
+      );
+      const endPage = Math.min(
+        startPage + maxDisplayedPages - 1,
+        this.totalPages
+      );
+      return Array.from(
+        { length: endPage - startPage + 1 },
+        (_, i) => startPage + i
+      );
     },
     currentBooks() {
       const start = (this.currentPage - 1) * this.itemsPerPage;
@@ -95,5 +125,6 @@ export default {
       }
     },
   },
+  components:  { FavouritesBooks },
 };
 </script>
