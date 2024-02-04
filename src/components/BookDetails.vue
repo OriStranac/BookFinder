@@ -11,14 +11,16 @@
               style="height: 200px; object-fit: cover"
             />
             <div class="card-body">
-              <h5 class="card-title" >{{ book.title }}</h5>
+              <h5 class="card-title">{{ book.title }}</h5>
               <p class="card-text">{{ book.subtitle }}</p>
               <p class="card-text">{{ book.authors }}</p>
               <p class="card-text">{{ book.description }}</p>
               <p class="card-text">Publisher: {{ book.publisher }}</p>
               <p class="card-text">Number of pages: {{ book.pages }}</p>
               <p class="card-text">Year: {{ book.year }}</p>
-
+              <button @click="addToFavorites" class="btn btn-primary">
+                Add to Favorites
+              </button>
             </div>
           </div>
         </div>
@@ -69,6 +71,9 @@ export default {
         console.error("Greška pri dohvatanju detalja knjige sa API-ja:", error);
         this.loading = false;
       }
+    },
+    addToFavorites() {
+      this.$store.dispatch("addToFavoritesAction", this.book);
     },
   },
 };
