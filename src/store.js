@@ -6,11 +6,13 @@ export default createStore({
     myBooks: [],
     itemsPerPage: 3,
     currentPage: 1,
+    favoriteBooks: [],
   },
   getters: {
     totalPages(state) {
       return Math.ceil(state.myBooks.length / state.itemsPerPage);
     },
+    getFavoriteBooks: (state) => state.favoriteBooks,
   },
   mutations: {
     SET_TEXT_INPUT(state, value) {
@@ -21,6 +23,9 @@ export default createStore({
     },
     SET_CURRENT_PAGE(state, page) {
       state.currentPage = page;
+    },
+    addToFavoritesMutation(state, book) {
+      state.favoriteBooks.push(book);
     },
   },
   actions: {
@@ -39,6 +44,13 @@ export default createStore({
       } catch (error) {
         console.error("Error fetching data from API:", error);
       }
+    },
+    addToFavoritesAction({ commit, state }, book) {
+      commit("addToFavoritesMutation", book);
+      localStorage.setItem(
+        "favoriteBooks",
+        JSON.stringify(state.favoriteBooks)
+      );
     },
   },
 });
