@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import FavouritesBooks from "./FavouritesBooks.vue";
+
 export default {
   name: "Home",
   data() {
@@ -125,6 +125,6 @@ export default {
       }
     },
   },
-  components:  { FavouritesBooks },
+  components:  {  },
 };
 </script>
