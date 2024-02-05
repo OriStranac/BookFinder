@@ -6,7 +6,7 @@ export default createStore({
     myBooks: [],
     itemsPerPage: 3,
     currentPage: 1,
-    favoriteBooks: [],
+    favoriteBooks: JSON.parse(localStorage.getItem("favoriteBooks")) || [],
   },
   getters: {
     totalPages(state) {
@@ -24,7 +24,7 @@ export default createStore({
     SET_CURRENT_PAGE(state, page) {
       state.currentPage = page;
     },
-    addToFavoritesMutation(state, book) {
+    ADD_TO_FAVORITES(state, book) {
       state.favoriteBooks.push(book);
     },
   },
@@ -49,10 +49,10 @@ export default createStore({
       if (
         !state.favoriteBooks.some((favoriteBook) => favoriteBook.id === book.id)
       ) {
-        commit("addToFavoritesMutation", book);
+        commit("ADD_TO_FAVORITES", book);
         localStorage.setItem(
           "favoriteBooks",
-          JSON.stringify(state.favoriteBooks)
+          JSON.stringify(state.favoriteBooks.concat(book))
         );
       } else {
         console.warn("Book already exists in favorites!");
