@@ -11,13 +11,16 @@
       </div>
     </div>
     <div class="row mt-3">
+      <div class="col-lg-12">
+        <h3>Search results:</h3>
+      </div>
       <div v-for="book in currentBooks" :key="book.id" class="col-lg-4 mb-3">
-        <div class="card">
+        <div class="card h-100">
           <img
             :src="book.image"
             class="card-img-top"
             alt="Book Cover"
-            style="height: 200px; object-fit: cover"
+            style="max-height: 200px; object-fit: cover"
           />
           <div class="card-body">
             <h5 class="card-title">{{ book.title }}</h5>
@@ -69,7 +72,7 @@
 </template>
 
 <script>
-import FavouritesBooks from "./FavouritesBooks.vue";
+
 export default {
   name: "Home",
   data() {
@@ -125,6 +128,6 @@ export default {
       }
     },
   },
-  components:  { FavouritesBooks },
+  components:  {  },
 };
 </script>
