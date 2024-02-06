@@ -14,13 +14,22 @@
             <h5 class="card-title">{{ book.title }}</h5>
             <p class="card-text">{{ book.subtitle }}</p>
             <p class="card-text">Authors: {{ book.authors }}</p>
-            <router-link
-              v-if="book.id"
-              :to="{ name: 'book-details', params: { id: book.id } }"
-              class="btn btn-primary"
-            >
-              Details
-            </router-link>
+            <div class="ml-10">
+              <router-link
+                v-if="book.id"
+                :to="{ name: 'book-details', params: { id: book.id } }"
+                class="btn btn-primary margin-left"
+              >
+                Details
+              </router-link>
+              <button
+                @click="removeFromFavorites(book.id)"
+                class="btn btn-danger"
+              >
+                
+                Remove from Favorites
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -36,8 +45,15 @@ export default {
       return this.$store.getters.getFavoriteBooks;
     },
   },
+  methods: {
+    removeFromFavorites(bookId) {
+      this.$store.dispatch("removeFromFavorites", bookId);
+    },
+  },
 };
 </script>
-<style scoped>
 
-</style>
+<style scoped>
+.margin-left{
+    margin-right: 10px;
+}</style>
