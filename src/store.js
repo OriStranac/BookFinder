@@ -1,3 +1,4 @@
+
 import { createStore } from "vuex";
 
 export default createStore({
@@ -24,8 +25,8 @@ export default createStore({
     SET_CURRENT_PAGE(state, page) {
       state.currentPage = page;
     },
-    ADD_TO_FAVORITES(state, book) {
-      state.favoriteBooks.push(book);
+    SET_FAVORITES_BOOKS(state, books) {
+      state.favoriteBooks = books;
     },
   },
   actions: {
@@ -46,17 +47,24 @@ export default createStore({
       }
     },
     addToFavoritesAction({ commit, state }, book) {
-      if (
-        !state.favoriteBooks.some((favoriteBook) => favoriteBook.id === book.id)
-      ) {
-        commit("ADD_TO_FAVORITES", book);
-        localStorage.setItem(
-          "favoriteBooks",
-          JSON.stringify(state.favoriteBooks.concat(book))
-        );
+      const isBookInFavorites = state.favoriteBooks.some(
+        (favoriteBook) => favoriteBook.id === book.id
+      );
+
+      if (!isBookInFavorites) {
+        const updatedFavorites = [...state.favoriteBooks, book];
+        commit("SET_FAVORITES_BOOKS", updatedFavorites);
+        localStorage.setItem("favoriteBooks", JSON.stringify(updatedFavorites));
       } else {
         console.warn("Book already exists in favorites!");
       }
+    },
+    removeFromFavorites({ commit, state }, bookId) {
+      const updatedFavorites = state.favoriteBooks.filter(
+        (book) => book.id !== bookId
+      );
+      commit("SET_FAVORITES_BOOKS", updatedFavorites);
+      localStorage.setItem("favoriteBooks", JSON.stringify(updatedFavorites));
     },
   },
 });
