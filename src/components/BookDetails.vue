@@ -1,29 +1,45 @@
 <template>
-  <div class="container mt-5">
+  <div class="container">
     <div class="row justify-content-center">
-      <div class="col-lg-6">
-        <div v-if="book !== null && !loading" class="text-center">
-          <div class="card">
+      <div class="col-lg-8">
+        <div v-if="book !== null && !loading" class="d-flex">
+          <div class="col-lg-6">
             <img
               :src="book.image"
               class="card-img-top"
               alt="Book Cover"
-              style="height: 200px; object-fit: cover"
+              style="
+                max-height: 500px;
+                object-fit: contain;
+                padding: 10px;
+                width: 100%;
+              "
             />
-            <div class="card-body">
-              <h5 class="card-title">{{ book.title }}</h5>
-              <p class="card-text">{{ book.subtitle }}</p>
-              <p class="card-text">{{ book.authors }}</p>
-              <p class="card-text">{{ book.description }}</p>
-              <p class="card-text">Publisher: {{ book.publisher }}</p>
-              <p class="card-text">Number of pages: {{ book.pages }}</p>
-              <p class="card-text">Year: {{ book.year }}</p>
-              <button @click="addToFavorites" class="btn btn-primary">
-                Add to Favorites
-              </button>
+          </div>
+          <div class="col-lg-6">
+            <div class="card" style="overflow-wrap: break-word; height: 500px;">
+              <div class="card-body">
+                <h5 class="card-title">{{ book.title }}</h5>
+                <p class="card-text">{{ book.subtitle }}</p>
+                <p class="card-text">{{ book.authors }}</p>
+                <p class="card-text">{{ book.description }}</p>
+                <p class="card-text">Publisher: {{ book.publisher }}</p>
+                <p class="card-text">Number of pages: {{ book.pages }}</p>
+                <p class="card-text">Year: {{ book.year }}</p>
+                <button @click="addToFavorites" class="btn btn-primary">
+                  Add to Favorites
+                </button>
+                <div v-if="addToFavoritesStatus === 'success'" class="alert alert-success" role="alert">
+                  Book successfully added to favorites!
+                </div>
+                <div v-if="addToFavoritesStatus === 'error'" class="alert alert-danger" role="alert">
+                  Error adding book to favorites. Please try again.
+                </div>
+              </div>
             </div>
           </div>
         </div>
+        
         <div v-else class="text-center">
           <p v-if="!loading">Knjiga nije pronađena.</p>
           <p v-if="loading">Učitavanje...</p>
@@ -40,6 +56,7 @@ export default {
     return {
       book: null,
       loading: true,
+      addToFavoritesStatus: null,
     };
   },
   async created() {
@@ -73,10 +90,24 @@ export default {
       }
     },
     addToFavorites() {
-      this.$store.dispatch("addToFavoritesAction", this.book);
+      this.$store.dispatch("addToFavoritesAction", this.book)
+        .then(() => {
+          this.addToFavoritesStatus = 'success';
+          setTimeout(() => {
+            this.addToFavoritesStatus = null;
+          }, 1000);
+        })
+        .catch(() => {
+          this.addToFavoritesStatus = 'error';
+        });
     },
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.col-lg-6 {
+  margin-top: 42px;
+  margin-bottom: 4px;
+}
+</style>
