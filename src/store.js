@@ -1,26 +1,29 @@
-
 import { createStore } from "vuex";
 
 export default createStore({
   state: {
     textInput: "",
-    myBooks: [],
     itemsPerPage: 3,
     currentPage: 1,
     favoriteBooks: JSON.parse(localStorage.getItem("favoriteBooks")) || [],
+    filteredBooks: [],
   },
   getters: {
     totalPages(state) {
-      return Math.ceil(state.myBooks.length / state.itemsPerPage);
+      return Math.ceil(state.filteredBooks.length / state.itemsPerPage);
     },
     getFavoriteBooks: (state) => state.favoriteBooks,
   },
   mutations: {
-    SET_TEXT_INPUT(state, value) {
-      state.textInput = value;
-    },
-    SET_MY_BOOKS(state, books) {
-      state.myBooks = books;
+    SET_FILTERED_BOOKS(state, books) {
+      const filteredBooks = books.filter((book) =>
+        state.textInput
+          .toLowerCase()
+          .split(" ")
+          .some((word) => book.title.toLowerCase().includes(word.toLowerCase().split(" ")))
+      );
+      console.log(filteredBooks);
+      state.filteredBooks = filteredBooks;
     },
     SET_CURRENT_PAGE(state, page) {
       state.currentPage = page;
@@ -38,9 +41,8 @@ export default createStore({
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-
         const data = await response.json();
-        commit("SET_MY_BOOKS", data.books || []);
+        commit("SET_FILTERED_BOOKS", data.books || []);
         commit("SET_CURRENT_PAGE", 1);
       } catch (error) {
         console.error("Error fetching data from API:", error);
@@ -50,7 +52,7 @@ export default createStore({
       const isBookInFavorites = state.favoriteBooks.some(
         (favoriteBook) => favoriteBook.id === book.id
       );
-
+      
       if (!isBookInFavorites) {
         const updatedFavorites = [...state.favoriteBooks, book];
         commit("SET_FAVORITES_BOOKS", updatedFavorites);
