@@ -24,8 +24,6 @@ export default {
 <style scoped>
 .main-content {
   min-height: calc(100vh - 52px * 2);
-  padding-top: 52px; 
-  padding-bottom: 52px;
   width: 100%;
 }
 </style>

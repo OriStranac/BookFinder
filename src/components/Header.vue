@@ -1,16 +1,10 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="height: 52px;">
-    <div class="container-fluid d-flex justify-content-between">
+  <nav class="navbar navbar-expand-lg" style="height: 52px;">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
       <router-link to="/" class="navbar-brand ps-0 font-weight-bold">BookFinder</router-link>
       <div class="d-flex">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <router-link to="/" class="nav-link">Home</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/favorites" class="nav-link">Favorites</router-link>
-          </li>
-        </ul>
+        <router-link to="/" class="nav-link me-3">Home</router-link>
+        <router-link to="/favorites" class="nav-link">Favorites</router-link>
       </div>
     </div>
   </nav>
@@ -23,4 +17,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>

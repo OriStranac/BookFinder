@@ -1,5 +1,5 @@
 <template>
-  <div class="container mt-3">
+  <div class="container">
     <h2 class="text-center">My Favorite Books</h2>
     <div class="row mt-3">
       <div v-for="book in favoriteBooks" :key="book.id" class="col-lg-4 mb-3">
@@ -8,7 +8,7 @@
             :src="book.image"
             class="card-img-top"
             alt="Book Cover"
-            style="height: 200px; object-fit: cover"
+            style="height: 200px; object-fit: contain; width: 100%; padding: 10px;"
           />
           <div class="card-body">
             <h5 class="card-title">{{ book.title }}</h5>
