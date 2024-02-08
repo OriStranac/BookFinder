@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+  <div class="container">
     <div class="row justify-content-center mb-3">
       <div class="col-lg-6 d-flex">
         <input
@@ -9,9 +9,9 @@
           style="height: 42px; max-width: 448px"
           placeholder="Search for books..."
         />
-        <label for="sortSelect" class="ms-2"></label>
-        <select v-model="sortOption" id="sortSelect" class="form-select">
-          <option value="default">Default</option>
+        <label for="sortSelect" class="ms-2 "></label>
+        <select v-show="currentBooks.length > 0" v-model="sortOption" id="sortSelect" class="form-select">
+          <option value="" disabled selected>Sort by...</option>
           <option value="title">Title (A-Z)</option>
           <option value="authors">Authors (A-Z)</option>
         </select>
@@ -21,7 +21,7 @@
       <div class="col-lg-12">
         <h3 class="mb-1">Search results:</h3>
       </div>
-      <div v-for="book in currentBooks" :key="book.id" class="col-lg-4 mb-3">
+      <div v-for="book in currentBooks" :key="book.id" class="col-lg-4 col-md-4 col-sm-6 mb-3">
         <div
           class="card"
           style="height: 375px; width: 372px; overflow-wrap: break-word"
@@ -77,7 +77,9 @@
             class="page-item"
             :class="{ active: currentPage === page }"
           >
-            <a class="page-link" @click="changePage(page)" href="#">{{ page }}</a>
+            <a class="page-link" @click="changePage(page)" href="#">{{
+              page
+            }}</a>
           </li>
           <li
             class="page-item"
@@ -104,7 +106,7 @@ export default {
   data() {
     return {
       textInput: "",
-      sortOption: "default",
+      sortOption: "",
     };
   },
   computed: {
@@ -133,13 +135,14 @@ export default {
       );
     },
     currentBooks() {
-      let sortedBooks = [...this.$store.state.filteredBooks];
+      let sortedBooks = this.$store.state.filteredBooks;
 
       if (this.sortOption === "title") {
         sortedBooks.sort((a, b) => a.title.localeCompare(b.title));
       } else if (this.sortOption === "authors") {
         sortedBooks.sort((a, b) => a.authors.localeCompare(b.authors));
       }
+
       const start = (this.currentPage - 1) * this.itemsPerPage;
       const end = start + this.itemsPerPage;
       return sortedBooks.slice(start, end);
@@ -154,8 +157,10 @@ export default {
   },
   watch: {
     textInput(newText) {
-      if (newText !== "") {
+      if (newText) {
         this.$store.dispatch("fetchDataFromAPI", newText);
+      } else {
+        this.$store.dispatch("resetFilteredBooks");
       }
     },
   },
@@ -163,11 +168,6 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  min-height: calc(100vh - 52px);
-  height: calc(100vh - 52px);
-  min-width: 100%;
-}
 .col-lg-6 {
   margin-top: 42px;
   margin-bottom: 4px;
@@ -182,7 +182,8 @@ export default {
   }
 
   .row {
-    margin-left: 0;
+   margin-left: 0px;
+   margin-right: 10px;
   }
   .pag {
     margin-bottom: 60px;
