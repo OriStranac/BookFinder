@@ -11,9 +11,5 @@ export default {
 </script>
 
 <style scoped>
-@media (max-width: 768px) {
-  .text-center{
-    margin-top: 90px;
-  }
-}
+
 </style>

@@ -19,7 +19,7 @@
           <div class="col-lg-6">
             <div
               class="card"
-              style="overflow-wrap: break-word; height: 460px; margin-top: 20px"
+              style="overflow-wrap: break-word; height: 440px; margin-top: 20px"
             >
               <div class="card-body">
                 <h5 class="card-title">{{ book.title }}</h5>
