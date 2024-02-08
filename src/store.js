@@ -7,12 +7,21 @@ export default createStore({
     currentPage: 1,
     favoriteBooks: JSON.parse(localStorage.getItem("favoriteBooks")) || [],
     filteredBooks: [],
+    sortOption: "default",
   },
   getters: {
     totalPages(state) {
       return Math.ceil(state.filteredBooks.length / state.itemsPerPage);
     },
     getFavoriteBooks: (state) => state.favoriteBooks,
+    sortedBooks: (state) => {
+      if (state.sortOption === "alphabetical") {
+        return state.filteredBooks
+          .slice()
+          .sort((a, b) => a.title.localeCompare(b.title));
+      }
+      return state.filteredBooks.slice();
+    },
   },
   mutations: {
     SET_FILTERED_BOOKS(state, books) {
@@ -20,7 +29,9 @@ export default createStore({
         state.textInput
           .toLowerCase()
           .split(" ")
-          .some((word) => book.title.toLowerCase().includes(word.toLowerCase().split(" ")))
+          .some((word) =>
+            book.title.toLowerCase().includes(word.toLowerCase().split(" "))
+          )
       );
       console.log(filteredBooks);
       state.filteredBooks = filteredBooks;
@@ -30,6 +41,9 @@ export default createStore({
     },
     SET_FAVORITES_BOOKS(state, books) {
       state.favoriteBooks = books;
+    },
+    SET_SORT_OPTION(state, option) {
+      state.sortOption = option;
     },
   },
   actions: {
@@ -52,7 +66,7 @@ export default createStore({
       const isBookInFavorites = state.favoriteBooks.some(
         (favoriteBook) => favoriteBook.id === book.id
       );
-      
+
       if (!isBookInFavorites) {
         const updatedFavorites = [...state.favoriteBooks, book];
         commit("SET_FAVORITES_BOOKS", updatedFavorites);
