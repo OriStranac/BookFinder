@@ -21,7 +21,7 @@
       <div class="col-lg-12">
         <h3 class="mb-1">Search results:</h3>
       </div>
-      <div v-for="book in currentBooks" :key="book.id" class="col-lg-4 col-md-4 col-sm-6 mb-3">
+      <div v-for="book in currentBooks" :key="book.id" class="col-lg-4 col-md-4 col-sm-6 mb-3 d-flex flex-wrap">
         <div
           class="card"
           style="height: 375px; width: 372px; overflow-wrap: break-word"
