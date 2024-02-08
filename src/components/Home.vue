@@ -1,14 +1,20 @@
 <template>
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-6">
+<div class="container">
+    <div class="row justify-content-center mb-3">
+      <div class="col-lg-6 d-flex">
         <input
           v-model="textInput"
           type="text"
-          class="form-control mx-auto"
+          class="form-control"
           style="height: 42px; max-width: 448px"
           placeholder="Search for books..."
         />
+        <label for="sortSelect" class="ms-2"></label>
+        <select v-model="sortOption" id="sortSelect" class="form-select">
+          <option value="default">Default</option>
+          <option value="title">Title (A-Z)</option>
+          <option value="authors">Authors (A-Z)</option>
+        </select>
       </div>
     </div>
     <div class="row mt-3">
@@ -53,7 +59,7 @@
           </div>
         </div>
       </div>
-      <nav aria-label="Page navigation" v-if="totalPages > 1">
+      <nav aria-label="Page navigation" class="pag" v-if="totalPages > 1">
         <ul class="pagination justify-content-center">
           <li class="page-item" :class="{ disabled: currentPage === 1 }">
             <a
@@ -98,6 +104,7 @@ export default {
   data() {
     return {
       textInput: "",
+      sortOption: "default",
     };
   },
   computed: {
@@ -126,9 +133,16 @@ export default {
       );
     },
     currentBooks() {
+      let sortedBooks = [...this.$store.state.filteredBooks];
+
+      if (this.sortOption === "title") {
+        sortedBooks.sort((a, b) => a.title.localeCompare(b.title));
+      } else if (this.sortOption === "authors") {
+        sortedBooks.sort((a, b) => a.authors.localeCompare(b.authors));
+      }
       const start = (this.currentPage - 1) * this.itemsPerPage;
       const end = start + this.itemsPerPage;
-      return this.$store.state.filteredBooks.slice(start, end);
+      return sortedBooks.slice(start, end);
     },
   },
   methods: {
@@ -145,7 +159,6 @@ export default {
       }
     },
   },
-  components: {},
 };
 </script>
 
@@ -158,5 +171,21 @@ export default {
 .col-lg-6 {
   margin-top: 42px;
   margin-bottom: 4px;
+}
+.row {
+  margin-left: 20px;
+}
+
+@media (max-width: 768px) {
+  .col-lg-6 {
+    margin-top: 20px;
+  }
+
+  .row {
+    margin-left: 0;
+  }
+  .pag {
+    margin-bottom: 60px;
+  }
 }
 </style>
