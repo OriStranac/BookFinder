@@ -1,5 +1,5 @@
 <template>
-  <footer class="text-center fixed-bottom" style="height: 52px; line-height: 52px;">
+  <footer class="text-center" style="height: 52px; line-height: 52px; background-color: white">
     © 2023 BookFinder. All rights reserved.
   </footer>
 </template>
@@ -11,7 +11,9 @@ export default {
 </script>
 
 <style scoped>
-.footer{
-  background-color: white;
+@media (max-width: 768px) {
+  .text-center{
+    margin-top: 90px;
+  }
 }
 </style>
