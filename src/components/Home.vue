@@ -180,7 +180,9 @@ export default {
   .col-lg-6 {
     margin-top: 20px;
   }
-
+  .container{
+    margin-left: 0px;
+  }
   .row {
    margin-left: 0px;
    margin-right: 10px;
