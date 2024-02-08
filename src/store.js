@@ -7,34 +7,20 @@ export default createStore({
     currentPage: 1,
     favoriteBooks: JSON.parse(localStorage.getItem("favoriteBooks")) || [],
     filteredBooks: [],
-    sortOption: "default",
   },
   getters: {
     totalPages(state) {
       return Math.ceil(state.filteredBooks.length / state.itemsPerPage);
     },
     getFavoriteBooks: (state) => state.favoriteBooks,
-    sortedBooks: (state) => {
-      if (state.sortOption === "alphabetical") {
-        return state.filteredBooks
-          .slice()
-          .sort((a, b) => a.title.localeCompare(b.title));
-      }
-      return state.filteredBooks.slice();
-    },
   },
   mutations: {
     SET_FILTERED_BOOKS(state, books) {
-      const filteredBooks = books.filter((book) =>
-        state.textInput
-          .toLowerCase()
-          .split(" ")
-          .some((word) =>
-            book.title.toLowerCase().includes(word.toLowerCase().split(" "))
-          )
+      const filteredBook = books.filter((book) =>
+        book.title.toLowerCase().includes(state.textInput.toLowerCase())
       );
-      console.log(filteredBooks);
-      state.filteredBooks = filteredBooks;
+      console.log(filteredBook, "test");
+      state.filteredBooks = filteredBook;
     },
     SET_CURRENT_PAGE(state, page) {
       state.currentPage = page;
@@ -45,9 +31,13 @@ export default createStore({
     SET_SORT_OPTION(state, option) {
       state.sortOption = option;
     },
+    SET_TXT_INPUT(state, input) {
+      state.textInput = input;
+    }
   },
   actions: {
     async fetchDataFromAPI({ commit }, query) {
+      commit("SET_TXT_INPUT", query);
       try {
         const apiUrl = `https://www.dbooks.org/api/search/${query}`;
         const response = await fetch(apiUrl);
@@ -61,6 +51,9 @@ export default createStore({
       } catch (error) {
         console.error("Error fetching data from API:", error);
       }
+    },
+    resetFilteredBooks({ commit }) { 
+      commit("SET_FILTERED_BOOKS", []);
     },
     addToFavoritesAction({ commit, state }, book) {
       const isBookInFavorites = state.favoriteBooks.some(
