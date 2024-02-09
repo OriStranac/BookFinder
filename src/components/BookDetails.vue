@@ -19,7 +19,7 @@
           <div class="col-lg-6">
             <div
               class="card"
-              style="overflow-wrap: break-word; height: 440px; margin-top: 20px"
+              style="overflow-wrap: break-word; height: auto; margin-top: 20px"
             >
               <div class="card-body">
                 <h5 class="card-title">{{ book.title }}</h5>
@@ -141,12 +141,15 @@ export default {
     margin-top: 20px;
     margin-bottom: 0;
   }
-
   .row {
     margin-bottom: 50px;
   }
   .pag {
     margin-bottom: 60px;
+  }
+  .container {
+    height: calc(100vh - (headerHeight + footerHeight));
+    overflow-y: auto;
   }
 }
 </style>

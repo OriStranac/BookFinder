@@ -9,8 +9,13 @@
           style="height: 42px; max-width: 448px"
           placeholder="Search for books..."
         />
-        <label for="sortSelect" class="ms-2 "></label>
-        <select v-show="currentBooks.length > 0" v-model="sortOption" id="sortSelect" class="form-select">
+        <label for="sortSelect" class="ms-2"></label>
+        <select
+          v-show="currentBooks.length > 0"
+          v-model="sortOption"
+          id="sortSelect"
+          class="form-select"
+        >
           <option value="" disabled selected>Sort by...</option>
           <option value="title">Title (A-Z)</option>
           <option value="authors">Authors (A-Z)</option>
@@ -21,10 +26,18 @@
       <div class="col-lg-12">
         <h3 class="mb-1">Search results:</h3>
       </div>
-      <div v-for="book in currentBooks" :key="book.id" class="col-lg-4 col-md-4 col-sm-6 mb-3 d-flex flex-wrap">
+      <div
+        v-for="book in currentBooks"
+        :key="book.id"
+        class="col-lg-4 col-md-6 mb-3"
+      >
         <div
-          class="card"
-          style="height: 375px; width: 372px; overflow-wrap: break-word"
+          class="card h-100"
+          style="
+            overflow-wrap: break-word;
+            margin-right: 1rem;
+            margin-bottom: 1rem;
+          "
         >
           <img
             :src="book.image"
@@ -37,7 +50,7 @@
               width: 100%;
             "
           />
-          <div class="card-body" style="max-height: 175px; overflow: hidden">
+          <div class="card-body" style="overflow: hidden">
             <h5
               class="card-title text-truncate"
               style="font-size: 18px; width: 100%"
@@ -180,12 +193,12 @@ export default {
   .col-lg-6 {
     margin-top: 20px;
   }
-  .container{
+  .container {
     margin-left: 0px;
   }
   .row {
-   margin-left: 0px;
-   margin-right: 10px;
+    margin-left: 0px;
+    margin-right: 10px;
   }
   .pag {
     margin-bottom: 60px;
