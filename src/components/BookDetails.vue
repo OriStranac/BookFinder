@@ -42,7 +42,7 @@
         </div>
 
         <div v-else class="text-center">
-          <p v-if="!loading">Knjiga nije pronađena.</p>
+          <p v-if="!loading">This book has no details.</p>
           <p v-if="loading">Učitavanje...</p>
         </div>
       </div>
