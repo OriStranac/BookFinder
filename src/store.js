@@ -33,7 +33,7 @@ export default createStore({
     },
     SET_TXT_INPUT(state, input) {
       state.textInput = input;
-    }
+    },
   },
   actions: {
     async fetchDataFromAPI({ commit }, query) {
@@ -52,14 +52,13 @@ export default createStore({
         console.error("Error fetching data from API:", error);
       }
     },
-    resetFilteredBooks({ commit }) { 
+    resetFilteredBooks({ commit }) {
       commit("SET_FILTERED_BOOKS", []);
     },
     addToFavoritesAction({ commit, state }, book) {
       const isBookInFavorites = state.favoriteBooks.some(
         (favoriteBook) => favoriteBook.id === book.id
       );
-
       if (!isBookInFavorites) {
         const updatedFavorites = [...state.favoriteBooks, book];
         commit("SET_FAVORITES_BOOKS", updatedFavorites);
