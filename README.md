@@ -24,3 +24,9 @@ This Vue.js application enables users to search for books and display the result
 2. Enter search text in the search field.
 3. Choose a sorting option (Default, Title (A-Z), Authors (A-Z)).
 4. Browse the search results and use pagination to navigate between pages.
+
+### Additional Features
+* View Book Details:
+  Users can view detailed information about each book.
+* Add/Remove from Favorites:
+  Users can add or remove books from their list of favorite books.
