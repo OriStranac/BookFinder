@@ -10,7 +10,7 @@ This Vue.js application enables users to search for books and display the result
    ```
  **Compiles and hot-reloads for development**
    ```bash
-   npm run serve
+   npm run dev
    ```
 
 ## Technologies Used
