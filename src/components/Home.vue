@@ -163,11 +163,20 @@ export default {
         this.$store.commit("SET_CURRENT_PAGE", page);
       }
     },
+    resetState() {
+      this.textInput = "";
+      this.sortOption = "";
+      this.$store.dispatch("resetFilteredBooks");
+    },
   },
   watch: {
     textInput(newText) {
       newText ? this.$store.dispatch("fetchDataFromAPI", newText) : this.$store.dispatch("resetFilteredBooks");
     },
+  },
+  beforeRouteLeave(to, from, next) {
+    this.resetState();
+    next();
   },
 };
 </script>
