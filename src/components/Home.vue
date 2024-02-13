@@ -150,12 +150,8 @@ export default {
     currentBooks() {
       let sortedBooks = this.$store.state.filteredBooks;
 
-      if (this.sortOption === "title") {
-        sortedBooks.sort((a, b) => a.title.localeCompare(b.title));
-      } else if (this.sortOption === "authors") {
-        sortedBooks.sort((a, b) => a.authors.localeCompare(b.authors));
-      }
-
+      this.sortOption === "title" ? sortedBooks.sort((a, b) => a.title.localeCompare(b.title)) : sortedBooks.sort((a, b) => a.authors.localeCompare(b.authors));
+      
       const start = (this.currentPage - 1) * this.itemsPerPage;
       const end = start + this.itemsPerPage;
       return sortedBooks.slice(start, end);
@@ -167,15 +163,20 @@ export default {
         this.$store.commit("SET_CURRENT_PAGE", page);
       }
     },
+    resetState() {
+      this.textInput = "";
+      this.sortOption = "";
+      this.$store.dispatch("resetFilteredBooks");
+    },
   },
   watch: {
     textInput(newText) {
-      if (newText) {
-        this.$store.dispatch("fetchDataFromAPI", newText);
-      } else {
-        this.$store.dispatch("resetFilteredBooks");
-      }
+      newText ? this.$store.dispatch("fetchDataFromAPI", newText) : this.$store.dispatch("resetFilteredBooks");
     },
+  },
+  beforeRouteLeave(to, from, next) {
+    this.resetState();
+    next();
   },
 };
 </script>
