@@ -27,6 +27,6 @@ This Vue.js application enables users to search for books and display the result
 
 ### Additional Features
 * View Book Details:
-  Users can view detailed information about each book.
+  - Users can view detailed information about each book.
 * Add/Remove from Favorites:
-  Users can add or remove books from their list of favorite books.
+  - Users can add or remove books from their list of favorite books.
