@@ -17,6 +17,7 @@
           class="form-select"
         >
           <option value="" disabled selected>Sort by...</option>
+          <option value="default">Default</option>
           <option value="title">Title (A-Z)</option>
           <option value="authors">Authors (A-Z)</option>
         </select>
@@ -148,10 +149,11 @@ export default {
       );
     },
     currentBooks() {
-      let sortedBooks = this.$store.state.filteredBooks;
-
-      this.sortOption === "title" ? sortedBooks.sort((a, b) => a.title.localeCompare(b.title)) : sortedBooks.sort((a, b) => a.authors.localeCompare(b.authors));
-      
+      const { filteredBooks } = this.$store.state;
+      let sortedBooks = [...filteredBooks];
+      this.sortOption === "title" || this.sortOption === "authors" ? 
+        sortedBooks.sort((a, b) => a[this.sortOption].localeCompare(b[this.sortOption])) : sortedBooks;
+        
       const start = (this.currentPage - 1) * this.itemsPerPage;
       const end = start + this.itemsPerPage;
       return sortedBooks.slice(start, end);
