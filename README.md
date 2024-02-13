@@ -1,4 +1,4 @@
-# BookFounder
+# BookFinder
 
 ## Description
 This Vue.js application enables users to search for books and display the results with pagination. Users can enter search text, sort results by title or authors, navigate through the results using pagination, view detailed information about each book and add or remove books from their list of favorite books. The application utilizes the https://www.dbooks.org/api/ for fetching book data.
