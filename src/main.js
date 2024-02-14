@@ -4,7 +4,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 import { createApp } from "vue";
 import store from "./store";
 import App from "./App.vue";
-import router from "./routes";
+import router from "./router/index.js";
 
 const app = createApp(App);
 app.use(router);
