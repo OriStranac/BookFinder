@@ -1,7 +1,7 @@
 import { createWebHistory, createRouter } from "vue-router";
-import Home from '../components/Home.vue'
-import BookDetails from '../components/BookDetails.vue'
-import FavouritesBooks from '../components/FavouritesBooks.vue'
+import Home from "../components/Home.vue";
+import BookDetails from "../components/BookDetails.vue";
+import FavouritesBooks from "../components/FavouritesBooks.vue";
 
 const routes = [
   {
@@ -15,10 +15,10 @@ const routes = [
     component: BookDetails,
   },
   {
-    path: '/favorites',
-    name: 'Favorites',
+    path: "/favorites",
+    name: "Favorites",
     component: FavouritesBooks,
-  }
+  },
 ];
 
 const router = createRouter({

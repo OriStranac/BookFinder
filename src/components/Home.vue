@@ -150,9 +150,12 @@ export default {
     },
     currentBooks() {
       let sortedBooks = [...this.$store.state.filteredBooks];
-      this.sortOption === "title" || this.sortOption === "authors" ? 
-        sortedBooks.sort((a, b) => a[this.sortOption].localeCompare(b[this.sortOption])) : sortedBooks;
-        
+      this.sortOption === "title" || this.sortOption === "authors"
+        ? sortedBooks.sort((a, b) =>
+            a[this.sortOption].localeCompare(b[this.sortOption])
+          )
+        : sortedBooks;
+
       const start = (this.currentPage - 1) * this.itemsPerPage;
       const end = start + this.itemsPerPage;
       return sortedBooks.slice(start, end);
@@ -172,7 +175,9 @@ export default {
   },
   watch: {
     textInput(newText) {
-      newText ? this.$store.dispatch("fetchDataFromAPI", newText) : this.$store.dispatch("resetFilteredBooks");
+      newText
+        ? this.$store.dispatch("fetchDataFromAPI", newText)
+        : this.$store.dispatch("resetFilteredBooks");
     },
   },
   beforeRouteLeave(to, from, next) {

@@ -1,16 +1,22 @@
 <template>
   <div class="container">
-    <div class="row justify-content-center mb-3">
-      
-    </div>
+    <div class="row justify-content-center mb-3"></div>
     <div class="row mt-3">
       <div class="col-lg-12 text-center">
         <h3 class="mb-1">Favorite books:</h3>
       </div>
-      <div v-for="book in favoriteBooks" :key="book.id" class="col-lg-4 col-md-6 mb-3">
+      <div
+        v-for="book in favoriteBooks"
+        :key="book.id"
+        class="col-lg-4 col-md-6 mb-3"
+      >
         <div
           class="card h-100"
-          style="overflow-wrap: break-word; margin-right: 1rem; margin-bottom: 1rem;"
+          style="
+            overflow-wrap: break-word;
+            margin-right: 1rem;
+            margin-bottom: 1rem;
+          "
         >
           <img
             :src="book.image"
@@ -42,12 +48,12 @@
             >
               Details
             </router-link>
-             <button
-                @click="removeFromFavorites(book.id)"
-                class="btn btn-danger"
-              >
-                Remove from Favorites
-              </button>
+            <button
+              @click="removeFromFavorites(book.id)"
+              class="btn btn-danger"
+            >
+              Remove from Favorites
+            </button>
           </div>
         </div>
       </div>
