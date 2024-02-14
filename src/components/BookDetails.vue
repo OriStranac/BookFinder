@@ -76,7 +76,12 @@ export default {
   },
   async created() {
     console.log("created hook - BookDetails component");
-    await this.fetchBookDetails();
+    this.fetchBookDetails();
+  },
+  computed: {
+    favoriteBooks() {
+      return this.$store.getters.getFavoriteBooks;
+    },
   },
   methods: {
     async fetchBookDetails() {
@@ -118,7 +123,7 @@ export default {
         });
     },
     isBookInFavorites() {
-      const favorites = this.$store.state.favoriteBooks;
+      const favorites = this.favoriteBooks;
       return favorites.some((favorite) => favorite.id === this.book.id);
     },
   },

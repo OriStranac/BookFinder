@@ -148,8 +148,11 @@ export default {
         (_, i) => startPage + i
       );
     },
+    filteredBooks() {
+      return this.$store.getters.getFilteredBooks;
+    },
     currentBooks() {
-      let sortedBooks = [...this.$store.state.filteredBooks];
+      let sortedBooks = [...this.filteredBooks];
       this.sortOption === "title" || this.sortOption === "authors"
         ? sortedBooks.sort((a, b) =>
             a[this.sortOption].localeCompare(b[this.sortOption])
