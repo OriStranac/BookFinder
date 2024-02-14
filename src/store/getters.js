@@ -3,4 +3,5 @@ export default {
     return Math.ceil(state.filteredBooks.length / state.itemsPerPage);
   },
   getFavoriteBooks: (state) => state.favoriteBooks,
+  getFilteredBooks: (state) => state.filteredBooks,
 };
