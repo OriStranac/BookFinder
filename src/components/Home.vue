@@ -149,8 +149,7 @@ export default {
       );
     },
     currentBooks() {
-      const { filteredBooks } = this.$store.state;
-      let sortedBooks = [...filteredBooks];
+      let sortedBooks = [...this.$store.state.filteredBooks];
       this.sortOption === "title" || this.sortOption === "authors" ? 
         sortedBooks.sort((a, b) => a[this.sortOption].localeCompare(b[this.sortOption])) : sortedBooks;
         
