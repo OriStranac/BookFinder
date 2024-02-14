@@ -79,7 +79,7 @@ export default {
     this.fetchBookDetails();
   },
   computed: {
-     favoriteBooks() {
+    favoriteBooks() {
       return this.$store.getters.getFavoriteBooks;
     },
   },
